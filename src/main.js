@@ -32,8 +32,6 @@ loader.load('bee.glb', (gltf) => {
     const model = gltf.scene;
     model.scale.set(1, 1, 1);
     scene.add(model);
-}, undefined, (error) => {
-    console.error('An error occurred while loading the model:', error);
 });
 
 // Animate
