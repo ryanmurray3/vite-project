@@ -2,6 +2,12 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
+console.log("✅ main.js is running");
+
+const canvas = document.createElement('div');
+canvas.innerHTML = '<h1 style="color: red;">main.js loaded!</h1>';
+document.body.appendChild(canvas);
+
 // Setup scence, camera, and renderer
 const scene = new THREE.Scene();
 //scene.background = new THREE.Color(0xf0f0f0);
