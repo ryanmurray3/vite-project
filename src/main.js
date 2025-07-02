@@ -17,8 +17,8 @@ document.body.appendChild(renderer.domElement);
 const light = new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(5, 10, 7.5);
 scene.add(light);
-const ambient = new THREE.AmbientLight(new THREE.AmbientLight(0x404040));
-scene.add(ambient);
+// const ambient = new THREE.AmbientLight(new THREE.AmbientLight(0x404040));
+// scene.add(ambient);
 
 
 
