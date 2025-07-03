@@ -78,7 +78,7 @@ function animate() {
     // Floating hover animation
     const t = performance.now() * 0.001; // Time in seconds
     beeModel.position.y = -2 + Math.sin(t) * 0.1;
-    beeModel.rotation.y += 0.002;
+    // beeModel.rotation.y += 0.002;
 }
 }
 animate();
