@@ -44,6 +44,12 @@ scene.add(ambient);
 // Add controls
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
+controls.enableZoom = false;          // Prevent zooming
+controls.enablePan = false;           // Prevent panning
+controls.minPolarAngle = Math.PI / 4; // Limit vertical angle (e.g. 45°)
+controls.maxPolarAngle = Math.PI / 2; // Limit to top-down view (e.g. 90°)
+controls.minAzimuthAngle = -Math.PI / 4; // Optional: restrict left/right rotation
+controls.maxAzimuthAngle = Math.PI / 4;
 
 
 // Animate
@@ -51,6 +57,12 @@ function animate() {
     requestAnimationFrame(animate);
     controls.update();
     renderer.render(scene, camera);
+    if (beeModel) {
+    // Floating hover animation
+    const t = performance.now() * 0.001; // Time in seconds
+    beeModel.position.y = -3 + Math.sin(t) * 0.1;
+    beeModel.rotation.y += 0.002;
+}
 }
 animate();
 
