@@ -10,10 +10,11 @@ document.body.appendChild(canvas);
 
 // Setup scence, camera, and renderer
 const scene = new THREE.Scene();
-//scene.background = new THREE.Color(0xf0f0f0);
+scene.background = null; // Set background to null for transparency
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, -200, 3);
+camera.position.set(0, 1.5, 3);
+camera.lookAt(0, 1.5, 0); // Look at the center of the scene
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); // Enable alpha for transparency
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -37,6 +38,7 @@ const loader = new GLTFLoader();
 loader.load('bee.glb', (gltf) => {
     const model = gltf.scene;
     console.log('Model loaded:', model);
+    model.position.y = -1; // Adjust the y position to -200
     model.scale.set(1, 1, 1);
     scene.add(model);
 });
