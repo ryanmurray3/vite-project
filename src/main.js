@@ -3,16 +3,33 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 
+let beeModel; // 👈 declare it in outer scope
 // Load bee.glb model(put it in the public folder)
 const loader = new GLTFLoader();
-loader.load('/bee.glb', (gltf) => {
-  const model = gltf.scene;
-  model.scale.set(1, 1, 1);
-  model.position.y = -3;
-  scene.add(model);
-}, undefined, (error) => {
-  console.error('Error loading bee.glb:', error);
-});
+
+loader.load(
+  '/bee.glb',
+  (gltf) => {
+    console.log('✅ bee.glb loaded successfully');
+    console.log(gltf);
+
+    beeModel = gltf.scene;
+
+    // Optional check to confirm it loaded correctly
+    if (!beeModel || typeof beeModel.add !== 'function') {
+      console.error('❌ beeModel is invalid or undefined.');
+      return;
+    }
+
+    beeModel.scale.set(1, 1, 1);
+    beeModel.position.y = -3;
+    scene.add(beeModel);
+  },
+  undefined,
+  (error) => {
+    console.error('❌ Failed to load bee.glb:', error);
+  }
+);
 
 // Setup scence, camera, and renderer
 const scene = new THREE.Scene();
@@ -43,7 +60,7 @@ scene.add(ambient);
 
 // Add controls
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
+// controls.enableDamping = true;
 controls.enableZoom = false;          // Prevent zooming
 controls.enablePan = false;           // Prevent panning
 controls.minPolarAngle = Math.PI / 4; // Limit vertical angle (e.g. 45°)
@@ -60,7 +77,7 @@ function animate() {
     if (beeModel) {
     // Floating hover animation
     const t = performance.now() * 0.001; // Time in seconds
-    beeModel.position.y = -3 + Math.sin(t) * 0.1;
+    beeModel.position.y = -2 + Math.sin(t) * 0.1;
     beeModel.rotation.y += 0.002;
 }
 }
