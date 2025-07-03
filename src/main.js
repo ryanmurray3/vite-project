@@ -34,7 +34,7 @@ controls.enableDamping = true;
 
 // Load bee.glb model(put it in the public folder)
 const loader = new GLTFLoader();
-loader.load('bee.glb', (gltf) => {
+loader.load('/bee.glb', (gltf) => {
     const model = gltf.scene;
     model.position.y = -200; // Adjust the y position to -200
     model.scale.set(1, 1, 1);
