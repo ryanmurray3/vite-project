@@ -1,35 +1,29 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { DragControls } from 'three/addons/controls/DragControls.js';
 
 
 let beeModel; // 👈 declare it in outer scope
 // Load bee.glb model(put it in the public folder)
 const loader = new GLTFLoader();
+const draggableObjects = [];
+// Add the bee model to the draggable objects array
 
-loader.load(
-  '/bee.glb',
-  (gltf) => {
-    console.log('✅ bee.glb loaded successfully');
-    console.log(gltf);
+loader.load('/bee_animated.glb', (gltf) => {
+  const beeModel = gltf.scene;
+  beeModel.scale.set(1, 1, 1);
+  beeModel.position.y = -3;
+  scene.add(beeModel);
 
-    beeModel = gltf.scene;
+  draggableObjects.push(beeModel); // 👈 Add bee to draggable list
 
-    // Optional check to confirm it loaded correctly
-    if (!beeModel || typeof beeModel.add !== 'function') {
-      console.error('❌ beeModel is invalid or undefined.');
-      return;
-    }
+  // Optional animation setup
+  mixer = new THREE.AnimationMixer(beeModel);
+  const action = mixer.clipAction(gltf.animations[0]);
+  action.play();
+});
 
-    beeModel.scale.set(1, 1, 1);
-    beeModel.position.y = -3;
-    scene.add(beeModel);
-  },
-  undefined,
-  (error) => {
-    console.error('❌ Failed to load bee.glb:', error);
-  }
-);
 
 // Setup scence, camera, and renderer
 const scene = new THREE.Scene();
@@ -59,6 +53,7 @@ scene.add(ambient);
 
 
 // Add controls
+const dragControls = new DragControls(draggableObjects, camera, renderer.domElement);
 const controls = new OrbitControls(camera, renderer.domElement);
 // controls.enableDamping = true;
 controls.enableZoom = false;          // Prevent zooming
@@ -67,6 +62,15 @@ controls.minPolarAngle = Math.PI / 4; // Limit vertical angle (e.g. 45°)
 controls.maxPolarAngle = Math.PI / 2; // Limit to top-down view (e.g. 90°)
 controls.minAzimuthAngle = -Math.PI / 4; // Optional: restrict left/right rotation
 controls.maxAzimuthAngle = Math.PI / 4;
+
+
+// Optional: disable OrbitControls while dragging
+dragControls.addEventListener('dragstart', () => {
+  controls.enabled = false;
+});
+dragControls.addEventListener('dragend', () => {
+  controls.enabled = true;
+});
 
 
 // Animate
